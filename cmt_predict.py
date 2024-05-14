@@ -37,31 +37,33 @@ rf_model.fit(X_train, y_train)
 xgb_model.fit(X_train, y_train)
 ada_model.fit(X_train, y_train)
 
-# Entrada dos dados neurofisiológicos
-st.header('Dados Neurofisiológicos')
-sex = st.selectbox('Sexo', ('Feminino', 'Masculino'))
-age_onset = st.number_input('Idade de Início', min_value=0, max_value=100, value=30)
-med_latency = st.number_input('med.latency', min_value=0.0, max_value=100.0, value=5.0)
-med_amp = st.number_input('med.amp', min_value=0.0, max_value=100.0, value=5.0)
-med_cv = st.number_input('med.cv', min_value=0.0, max_value=100.0, value=50.0)
-med_fwave = st.number_input('med.fwave', min_value=0.0, max_value=100.0, value=50.0)
-uln_latency = st.number_input('uln.latency', min_value=0.0, max_value=100.0, value=5.0)
-uln_amp = st.number_input('uln.amp', min_value=0.0, max_value=100.0, value=5.0)
-uln_cv = st.number_input('uln.cv', min_value=0.0, max_value=100.0, value=50.0)
-uln_fwave = st.number_input('uln.fwave', min_value=0.0, max_value=100.0, value=50.0)
-rad_amp = st.number_input('rad.amp', min_value=0.0, max_value=100.0, value=5.0)
-rad_cv = st.number_input('rad.cv', min_value=0.0, max_value=100.0, value=50.0)
-cmtes = st.number_input('CMTES', min_value=0, max_value=50, value=10)
-cmtns = st.number_input('CMTNS', min_value=0, max_value=50, value=10)
+# Criando o formulário para entrada de dados
+with st.form("cmt_form"):
+    st.header('Dados Neurofisiológicos')
+    sex = st.selectbox('Sexo', ('Feminino', 'Masculino'))
+    age_onset = st.number_input('Idade de Início', min_value=0, max_value=100, value=30)
+    med_latency = st.number_input('med.latency', min_value=0.0, max_value=100.0, value=5.0)
+    med_amp = st.number_input('med.amp', min_value=0.0, max_value=100.0, value=5.0)
+    med_cv = st.number_input('med.cv', min_value=0.0, max_value=100.0, value=50.0)
+    med_fwave = st.number_input('med.fwave', min_value=0.0, max_value=100.0, value=50.0)
+    uln_latency = st.number_input('uln.latency', min_value=0.0, max_value=100.0, value=5.0)
+    uln_amp = st.number_input('uln.amp', min_value=0.0, max_value=100.0, value=5.0)
+    uln_cv = st.number_input('uln.cv', min_value=0.0, max_value=100.0, value=50.0)
+    uln_fwave = st.number_input('uln.fwave', min_value=0.0, max_value=100.0, value=50.0)
+    rad_amp = st.number_input('rad.amp', min_value=0.0, max_value=100.0, value=5.0)
+    rad_cv = st.number_input('rad.cv', min_value=0.0, max_value=100.0, value=50.0)
+    cmtes = st.number_input('CMTES', min_value=0, max_value=50, value=10)
+    cmtns = st.number_input('CMTNS', min_value=0, max_value=50, value=10)
 
+    # Seleção do modelo
+    st.header('Seleção do Modelo')
+    model_choice = st.selectbox('Escolha o modelo de classificação', ('Random Forest', 'XGBoost', 'AdaBoost'))
 
+    # Botão de submissão do formulário
+    submit_button = st.form_submit_button("Classificar")
 
-# Seleção do modelo
-st.header('Seleção do Modelo')
-model_choice = st.selectbox('Escolha o modelo de classificação', ('Random Forest', 'XGBoost', 'AdaBoost'))
-
-# Botão para fazer a previsão
-if st.button('Classificar'):
+# Processamento dos dados após submissão do formulário
+if submit_button:
     # Preparando os dados de entrada na ordem correta
     input_data = pd.DataFrame({
         'sex_F': [1 if sex == 'Feminino' else 0],
